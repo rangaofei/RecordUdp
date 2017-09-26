@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.hlbd.remotedesk.activity.RecordScreenActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="手机投影到电脑"
+            android:textSize="20sp" />
+
+        <CheckBox
+            android:id="@+id/cb_record"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="启动同屏功能" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent" />
+
+    </LinearLayout>
+</layout>
