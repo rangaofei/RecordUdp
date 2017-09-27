@@ -21,7 +21,8 @@
             android:layout_height="30dp"
             android:text="启动同屏功能" />
 
-        <Button
+        <SurfaceView
+            android:id="@+id/sv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorAccent" />

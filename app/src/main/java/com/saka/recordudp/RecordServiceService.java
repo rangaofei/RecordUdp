@@ -73,7 +73,7 @@ public class RecordServiceService extends Service {
         sendThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                udpTools.initSocket("192.168.31.169", 5555);
+                udpTools.initSocket("192.168.31.161", 5555);
                 while (!mQuit.get() && !Thread.interrupted()) {
                     try {
                         byte[] tmp = datas.take();
