@@ -316,94 +316,7 @@ int sendData(char *data, int length, long timeStamp) {
                 }
             }
         }
-//        while (t < k) {
-//            rtp_hdr->seq_no = htons(seq_num++); //序列号，每发送一个RTP包增1
-//            if (!t)//发送一个需要分片的NALU的第一个分片，置FU HEADER的S位,t = 0时进入此逻辑。
-//            {
-//                //设置rtp M 位；
-//                rtp_hdr->marker = 0;  //最后一个NALU时，该值设置成1，其他都设置成0。
-//                //设置FU INDICATOR,并将这个HEADER填入sendbuf[12]
-//                fu_ind = (FU_INDICATOR *) &sendbuf[12]; //将sendbuf[12]的地址赋给fu_ind，之后对fu_ind的写入就将写入sendbuf中；
-//                fu_ind->F = nalu_t->forbidden_bit;
-//                fu_ind->NRI = nalu_t->nal_reference_idc >> 5;
-//                fu_ind->TYPE = 28;  //FU-A类型。
-//
-//                //设置FU HEADER,并将这个HEADER填入sendbuf[13]
-//                fu_hdr = (FU_HEADER *) &sendbuf[13];
-//                fu_hdr->E = 0;
-//                fu_hdr->R = 0;
-//                fu_hdr->S = 1;
-//                fu_hdr->TYPE = nalu_t->nal_unit_type;
-//
-//                nalu_payload = &sendbuf[14];//同理将sendbuf[14]赋给nalu_payload
-//                memcpy(nalu_payload, nalu_t->buf + 1, 1400);//去掉NALU头，每次拷贝1400个字节。
-//
-//                bytes = 1400 +
-//                        14;//获得sendbuf的长度,为nalu的长度（除去起始前缀和NALU头）加上rtp_header，fu_ind，fu_hdr的固定长度                                                            14字节
-////                send(socket1, sendbuf, bytes, 0);//发送rtp包
-//                sendto(sd, sendbuf, bytes, 0, (struct sockaddr *) &(addr_dst),
-//                       sizeof(sockaddr_in));
-//                t++;
-//
-//            }
-//                //发送一个需要分片的NALU的非第一个分片，清零FU HEADER的S位，如果该分片是该NALU的最后一个分片，置FU HEADER的E位
-//            else if (t == k - 1)//发送的是最后一个分片
-//            {                //设置rtp M 位；当前传输的是最后一个分片时该位置1
-//                rtp_hdr->marker = 1;
-//                //设置FU INDICATOR,并将这个HEADER填入sendbuf[12]
-//                fu_ind = (FU_INDICATOR *) &sendbuf[12]; //将sendbuf[12]的地址赋给fu_ind，之后对fu_ind的写入就将写入sendbuf中；
-//                fu_ind->F = nalu_t->forbidden_bit;
-//                fu_ind->NRI = nalu_t->nal_reference_idc >> 5;
-//                fu_ind->TYPE = 28;
-//
-//                //设置FU HEADER,并将这个HEADER填入sendbuf[13]
-//                fu_hdr = (FU_HEADER *) &sendbuf[13];
-//                fu_hdr->R = 0;
-//                fu_hdr->S = 0;
-//                fu_hdr->TYPE = nalu_t->nal_unit_type;
-//                fu_hdr->E = 1;
-//
-//                nalu_payload = &sendbuf[14];//同理将sendbuf[14]的地址赋给nalu_payload
-//                memcpy(nalu_payload, nalu_t->buf + (t - 1) * 1400 + 1,
-//                       last - 1);//将nalu最后剩余的l-1(去掉了一个字节的NALU头)字节内容写入sendbuf[14]开始的字符串。
-//                bytes = last - 1 +
-//                        14;      //获得sendbuf的长度,为剩余nalu的长度l-1加上rtp_header，FU_INDICATOR,FU_HEADER三个包头共14字节
-////                send(socket1, sendbuf, bytes, 0);//发送rtp包
-//                sendto(sd, sendbuf, bytes, 0,
-//                       (struct sockaddr *) &(addr_dst),
-//                       sizeof(sockaddr_in));
-//                t++;
-//                //Sleep(100);
-//            }
-//                //既不是第一个分片，也不是最后一个分片的处理。
-//            else if (t < k - 1) {
-//                //设置rtp M 位；
-//                rtp_hdr->marker = 0;
-//                //设置FU INDICATOR,并将这个HEADER填入sendbuf[12]
-//                fu_ind = (FU_INDICATOR *) &sendbuf[12]; //将sendbuf[12]的地址赋给fu_ind，之后对fu_ind的写入就将写入sendbuf中；
-//                fu_ind->F = nalu_t->forbidden_bit;
-//                fu_ind->NRI = nalu_t->nal_reference_idc >> 5;
-//                fu_ind->TYPE = 28;
-//
-//                //设置FU HEADER,并将这个HEADER填入sendbuf[13]
-//                fu_hdr = (FU_HEADER *) &sendbuf[13];
-//
-//                fu_hdr->R = 0;
-//                fu_hdr->S = 0;
-//                fu_hdr->E = 0;
-//                fu_hdr->TYPE = nalu_t->nal_unit_type;
-//
-//                nalu_payload = &sendbuf[14];//同理将sendbuf[14]的地址赋给nalu_payload
-//                memcpy(nalu_payload, nalu_t->buf + t * 1400 + 1,
-//                       1400);//去掉起始前缀的nalu剩余内容写入sendbuf[14]开始的字符串。
-//                bytes = 1400 +
-//                        14;                        //获得sendbuf的长度,为nalu的长度（除去原NALU头）加上rtp_header，fu_ind，fu_hdr的固定长度14字节
-////                send(socket1, sendbuf, bytes, 0);//发送rtp包
-//                sendto(sd, sendbuf, bytes, 0, (struct sockaddr *) &(addr_dst),
-//                       sizeof(sockaddr_in));
-//                t++;
-//            }
-//        }
+
     }
     FreeNALU(nalu_t);
     return 0;
@@ -418,6 +331,22 @@ static int FindStartCode3(char *Buf) {
     if (Buf[0] != 0 || Buf[1] != 0 || Buf[2] != 0 || Buf[3] != 1)
         return 0;//判断是否为0x00000001,如果是返回1
     else return 1;
+}
+
+sendH264Data(char *buf, int length) {
+    if (length <= 1400) {
+        sendto(sd, buf, length, 0, (struct sockaddr *) &(addr_dst),
+               sizeof(sockaddr_in));
+    } else {
+        int l = length / 1400;
+        for (int i = 0; i < l; i++) {
+            sendto(sd, buf, 1400, 0, (struct sockaddr *) &(addr_dst),
+                   sizeof(sockaddr_in));
+        }
+        sendto(sd, buf, length % 1400, 0, (struct sockaddr *) &(addr_dst),
+               sizeof(sockaddr_in));
+    }
+
 }
 
 JNIEXPORT void JNICALL
@@ -449,8 +378,8 @@ Java_com_saka_recordudp_SendRTPLib_sendData(JNIEnv *env, jobject instance, jbyte
         LOGE("error,data is null");
     }
     char *buf = (char *) data;
-
-    sendData(buf, length, timeStamp);
+    sendH264Data(buf, length);
+//    sendData(buf, length, timeStamp);
     env->ReleaseByteArrayElements(data_, data, 0);
 }
 

@@ -51,7 +51,7 @@ public class RecordScreenActivity extends AppCompatActivity implements SurfaceHo
     byte[] pps = {0, 0, 0, 1, 104, -18, 60, -128};
 
     public static void getResultData(byte[] data, int length) {
-        LogUtil.d("接收到数据" + Arrays.toString(data));
+        LogUtil.e("接收到数据" + Arrays.toString(data));
         if (length < 0) {
             return;
         }
@@ -112,6 +112,7 @@ public class RecordScreenActivity extends AppCompatActivity implements SurfaceHo
             @Override
             public void run() {
                 ReceiveRTPLib.initSocket(RecordScreenActivity.this);
+
             }
         }).start();
 
